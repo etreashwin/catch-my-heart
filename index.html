@@ -1,84 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Catch My Heart, Diksha</title>
-
-<style>
-body{
-  margin:0;
-  overflow:hidden;
-  background:#ffd6e8;
-  font-family:Georgia, serif;
-}
-
-#score{
-  position:fixed;
-  top:15px;
-  left:15px;
-  font-size:18px;
-}
-
-.heart{
-  position:fixed;
-  font-size:28px;
-  cursor:pointer;
-  animation:up 5s linear forwards;
-}
-
-@keyframes up{
-  from{transform:translateY(40px);}
-  to{transform:translateY(-120vh);opacity:0;}
-}
-
-#overlay{
-  position:fixed;
-  inset:0;
-  display:none;
-  background:white;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-}
-</style>
-</head>
-
-<body>
-
-<div id="score">Hearts: 0 ❤️</div>
-
-<div id="overlay">
-  <h2>Diksha, you caught my heart.<br>Will you be my Valentine?</h2>
-</div>
-
 <script>
-let count=0;
-const target=3;
+let count = 0;
+const target = 10;
+
+const scoreEl = document.getElementById("score");
+const overlay = document.getElementById("overlay");
 
 function spawn(){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*window.innerWidth+"px";
-  h.style.bottom="-20px";
 
-  h.onclick=function(){
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+
+  // bigger for mobile
+  h.style.fontSize = "40px";
+
+  h.style.left = Math.random() * (window.innerWidth - 60) + "px";
+  h.style.bottom = "-40px";
+
+  // slower float
+  h.style.animationDuration = "6s";
+
+  function catchHeart(){
     count++;
-    document.getElementById("score").innerHTML="Hearts: "+count+" ❤️";
+    scoreEl.innerHTML = "Hearts: " + count + " ❤️";
     h.remove();
 
-    if(count>=target){
-      document.getElementById("overlay").style.display="flex";
+    if(count >= target){
+      overlay.style.display = "flex";
       clearInterval(timer);
     }
-  };
+  }
+
+  // works for both desktop + mobile
+  h.addEventListener("click", catchHeart);
+  h.addEventListener("touchstart", catchHeart);
 
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
+
+  setTimeout(() => h.remove(), 6000);
 }
 
-const timer=setInterval(spawn,700);
+const timer = setInterval(spawn, 900);
 </script>
-
-</body>
-</html>
