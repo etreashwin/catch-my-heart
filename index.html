@@ -1,49 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Catch My Heart, Diksha</title>
-
-<!-- Romantic font -->
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diksha ❤️</title>
 
 <style>
-
 body{
   margin:0;
   overflow:hidden;
+  background:#ffd6e8;
   font-family: Georgia, serif;
-  background: linear-gradient(160deg,#ffe3ec,#ffd6e8);
 }
 
-/* score */
 #score{
   position:fixed;
-  top:18px;
-  left:18px;
+  top:15px;
+  left:15px;
   font-size:18px;
-  color:#7a1f3d;
 }
 
-/* floating hearts */
 .heart{
   position:fixed;
-  font-size:42px;          /* BIGGER for thumbs */
+  font-size:44px;
   cursor:pointer;
   user-select:none;
   touch-action:manipulation;
-  animation: rise linear forwards;
+  animation: rise 6s linear forwards;
 }
 
 @keyframes rise{
-  from{ transform:translateY(40px); opacity:1; }
+  from{ transform:translateY(40px); }
   to{ transform:translateY(-120vh); opacity:0; }
 }
 
-/* proposal screen */
 #overlay{
   position:fixed;
   inset:0;
   display:none;
-  background:r
+  background:white;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:28px;
+  padding:30px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="score">Hearts: 0 ❤️</div>
+
+<div id="overlay">
+  Diksha,<br>
+  you caught my heart.<br>
+  Be my Valentine? ❤️
+</div>
+
+<script>
+let count = 0;
+const target = 10;
+
+const score = document.getElementById("score");
+const overlay = document.getElementById("overlay");
+
+function spawn(){
+  const h = document.createElement("div");
+  h.className = "heart";
+  h.innerHTML = "❤️";
+
+  h.style.left = Math.random()*window.innerWidth + "px";
+  h.style.bottom = "-40px";
+
+  function catchIt(){
+    count++;
+    score.innerHTML = "Hearts: " + count + " ❤️";
+    h.remove();
+
+    if(count >= target){
+      overlay.style.display = "flex";
+      clearInterval(timer);
+    }
+  }
+
+  h.addEventListener("click", catchIt);
+  h.addEventListener("touchstart", catchIt);
+
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+}
+
+const timer = setInterval(spawn, 800);
+</script>
+
+</body>
+</html>
